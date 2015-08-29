@@ -1,0 +1,143 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://micro-environs-104602.appspot.com/_ah/api",
+  "name" : "car",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://micro-environs-104602.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "car.car.add" : {
+      "path" : "car/add/{brand}/{model}/{year}",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ "vehiclecarx.appspot.com" ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.gaurikad.CarEndPoint.addCar",
+      "request" : {
+        "parameters" : {
+          "brand" : {
+            "type" : "string",
+            "required" : true
+          },
+          "model" : {
+            "type" : "string",
+            "required" : true
+          },
+          "year" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "car.readall" : {
+      "path" : "readall",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ "vehiclecarx.appspot.com" ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.gaurikad.CarEndPoint.readall",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Car" : {
+        "id" : "Car",
+        "type" : "object",
+        "properties" : {
+          "brand" : {
+            "type" : "string"
+          },
+          "model" : {
+            "type" : "string"
+          },
+          "year" : {
+            "type" : "integer"
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "CarCollection" : {
+        "id" : "CarCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Car"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.gaurikad.CarEndPoint.addCar" : {
+      },
+      "com.gaurikad.CarEndPoint.readall" : {
+        "response" : {
+          "$ref" : "CarCollection"
+        }
+      }
+    }
+  }
+}
